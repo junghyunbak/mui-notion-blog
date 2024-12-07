@@ -17,20 +17,22 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             <CssBaseline />
 
             <ReactQueryProvider>
-              <Header />
-              <Container maxWidth="lg">
-                <Box
-                  sx={{
-                    my: 4,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {props.children}
-                </Box>
-              </Container>
+              <React.Suspense>
+                <Header />
+                <Container maxWidth="lg">
+                  <Box
+                    sx={{
+                      my: 4,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {props.children}
+                  </Box>
+                </Container>
+              </React.Suspense>
             </ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
