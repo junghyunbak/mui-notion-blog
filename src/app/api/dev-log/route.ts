@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
     database_id: NOTION.DEV_LOG_DATABASE_ID,
     filter: {
       and: [
-        /*
         {
           property: "숨김",
           checkbox: {
@@ -27,7 +26,6 @@ export async function GET(request: NextRequest) {
             equals: "완료",
           },
         },
-        */
         {
           or: [
             ...tags.map((tag) => {
