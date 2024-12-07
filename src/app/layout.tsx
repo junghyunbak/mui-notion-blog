@@ -6,6 +6,15 @@ import theme from "@/theme";
 import { ReactQueryProvider } from "./_components/ReactQueryProvider";
 import { Header } from "./_components/Header";
 import { Container, Box } from "@mui/material";
+import { type Metadata } from "next";
+
+export function generateMetadata(): Metadata {
+  return {
+    verification: {
+      google: "lL9UfMha41UHALGoZyPh8uqUDknzocPrz-OEtP2-gSg",
+    },
+  };
+}
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
