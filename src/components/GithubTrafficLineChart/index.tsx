@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Stack, Typography } from "@mui/material";
 import {
   AreaPlot,
   LinePlot,
@@ -10,8 +10,8 @@ import {
 } from "@mui/x-charts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { GradientPaper } from "@/components/core/GradientPaper";
-import { FileDownload, X } from "@mui/icons-material";
+import { FileDownload } from "@mui/icons-material";
+import { Layout, TopContent } from "./index.styles";
 
 interface GithubReleasesLineChartProps {
   owner: string;
@@ -44,7 +44,9 @@ export function GithubReleasesLineChart({
   });
 
   if (!data) {
-    return;
+    return (
+      <Skeleton sx={{ width: "100%", height: "100%", transform: "none" }} />
+    );
   }
 
   const downloadCount = data.reduce(
@@ -57,24 +59,14 @@ export function GithubReleasesLineChart({
     0
   );
 
-  console.log(data.length);
-
   const xData = data.map((_, i) => i);
   const yData = data
     .map((release) => release.assets.reduce((a, c) => a + c.download_count, 0))
     .reverse();
 
   return (
-    <GradientPaper
-      sx={{
-        overflow: "hidden",
-        aspectRatio: "16/9",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <Box sx={{ height: "50%", padding: "2rem" }}>
+    <Layout>
+      <TopContent>
         <Box
           sx={{
             width: "100%",
@@ -88,13 +80,14 @@ export function GithubReleasesLineChart({
             </Typography>
             <Typography variant="h5">{downloadCount}</Typography>
           </Stack>
+
           <Avatar>
             <FileDownload />
           </Avatar>
         </Box>
-      </Box>
+      </TopContent>
 
-      <Box sx={{ height: "50%", transform: "translateY(1px)" }}>
+      <Box sx={{ height: "50%" }}>
         <ResponsiveChartContainer
           skipAnimation
           xAxis={[
@@ -139,6 +132,6 @@ export function GithubReleasesLineChart({
           <AreaPlot />
         </ResponsiveChartContainer>
       </Box>
-    </GradientPaper>
+    </Layout>
   );
 }

@@ -16,5 +16,8 @@ declare global {
     "/api/github/releases": ResponseTemplate<{
       releases: Endpoints["GET /repos/{owner}/{repo}/releases"]["response"]["data"];
     }>;
+    "/api/github/user": ResponseTemplate<{
+      user: Endpoints["GET /users/{username}"]["response"]["data"];
+    }>;
   };
 }
