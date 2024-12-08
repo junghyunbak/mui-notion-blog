@@ -1,4 +1,4 @@
-import { NOTION } from "@/app/constants";
+import { NOTION } from "@/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { AppRoutesResponse } from "@/utils/api";
 import { Client } from "@notionhq/client";
