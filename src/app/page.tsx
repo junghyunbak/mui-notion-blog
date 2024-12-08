@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DevLog } from "./_components/DevLog";
 import { Metadata } from "next";
-import { GithubReleasesLineChart } from "@/components/GithubTrafficLineChart";
+import { GithubReleasesLineChart } from "@/components/widget/GithubTrafficLineChart";
 import { Stack, Grid } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
 import { GradientPaper } from "@/components/core/GradientPaper";
