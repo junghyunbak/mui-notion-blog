@@ -44,6 +44,8 @@ export async function generateMetadata({
   };
 }
 
+export const revalidate = 60;
+
 export default async function DevLogDetail({ params: { id } }: DevLogDetail) {
   const recordMap = await notion.getPage(id);
 
