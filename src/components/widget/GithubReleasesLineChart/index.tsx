@@ -65,7 +65,6 @@ export function GithubReleasesLineChart({
 
       <BottomContent>
         <ResponsiveChartContainer
-          skipAnimation
           xAxis={[
             {
               data: xData,

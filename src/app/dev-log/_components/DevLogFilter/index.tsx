@@ -11,7 +11,10 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 export function DevLogFilter() {
-  const tags = useFetchDatabaseTags(NOTION.DEV_LOG_DATABASE.ID);
+  const tags = useFetchDatabaseTags(
+    NOTION.DEV_LOG_DATABASE.ID,
+    NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT
+  );
 
   if (!tags) {
     return (

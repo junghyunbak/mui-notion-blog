@@ -5,6 +5,7 @@ import { Stack, Grid } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
 import { GradientPaper } from "@/components/core/GradientPaper";
 import { DevLogPreivew } from "./_components/DevLogPreview";
+import { NotionTagBarChart } from "@/components/widget/NotionTagBarChart";
 
 export function generateMetadata(): Metadata {
   return {
@@ -40,7 +41,9 @@ export default async function Home() {
             md={12}
             sx={{ width: "100%", aspectRatio: "8/3" }}
           >
-            <GradientPaper sx={{ width: "100%", height: "100%" }} />
+            <GradientPaper
+              sx={{ width: "100%", height: "100%" }}
+            ></GradientPaper>
           </Grid>
 
           <Grid
@@ -80,7 +83,9 @@ export default async function Home() {
           md={6}
           sx={{ width: "100%", aspectRatio: "4/3" }}
         >
-          <GradientPaper sx={{ width: "100%", height: "100%" }} />
+          <GradientPaper sx={{ width: "100%", height: "100%" }}>
+            <NotionTagBarChart />
+          </GradientPaper>
         </Grid>
 
         <DevLogPreivew />

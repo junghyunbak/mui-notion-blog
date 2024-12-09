@@ -51,7 +51,7 @@ export const useFetchGithubRepoReleases = (owner: string, repo: string) => {
 export const useFetchNotionDatabasePages = (
   tags: string[],
   databaseId: string,
-  tagProperty: string,
+  tagPropertyName: string,
   hiddenChkBoxPropertyName: string
 ) => {
   const { data } = useQuery({
@@ -68,7 +68,7 @@ export const useFetchNotionDatabasePages = (
       >("/api/notion/databases", {
         databaseId,
         tags,
-        tagProperty,
+        tagPropertyName,
         hiddenChkBoxPropertyName: hiddenChkBoxPropertyName,
       });
 
@@ -79,7 +79,12 @@ export const useFetchNotionDatabasePages = (
   return data;
 };
 
-export const useFetchDatabaseTags = (databaseId: string) => {
+export const useFetchDatabaseTags = (
+  databaseId: string,
+  tagPropertyName: string,
+  statusPropertyName?: string,
+  statusCompleteSelectName?: string
+) => {
   const { data } = useQuery({
     queryKey: ["dev-log-filter"],
     queryFn: async () => {
@@ -93,6 +98,9 @@ export const useFetchDatabaseTags = (databaseId: string) => {
         ApiRoutes.Request<"/api/notion/databases/tags">
       >("/api/notion/databases/tags", {
         databaseId,
+        tagPropertyName,
+        statusCompleteSelectName,
+        statusPropertyName,
       });
 
       return tags;

@@ -4,11 +4,14 @@ import { z } from "zod";
 
 export const databaseTagsSchema = z.object({
   databaseId: z.string(),
+  tagPropertyName: z.string(),
+  statusPropertyName: z.string().optional(),
+  statusCompleteSelectName: z.string().optional(),
 });
 
 export const databaseSchema = z.object({
   databaseId: z.string(),
-  tagProperty: z.string(),
+  tagPropertyName: z.string(),
   tags: z.string().array(),
   hiddenChkBoxPropertyName: z.string(),
 });
@@ -24,7 +27,6 @@ export const githubUserSchema = z.object({
 
 declare global {
   type TagName = string;
-  type TagCount = number;
 
   type ResponseTemplate<T> = {
     data: T;
@@ -43,7 +45,7 @@ declare global {
         pages: PageObjectResponse[];
       }>;
       "/api/notion/databases/tags": ResponseTemplate<{
-        tags: [TagName, TagCount][];
+        tags: [TagName, { completeCount: number; totalCount: number }][];
       }>;
       "/api/github/releases": ResponseTemplate<{
         releases: Endpoints["GET /repos/{owner}/{repo}/releases"]["response"]["data"];

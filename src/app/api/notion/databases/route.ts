@@ -9,7 +9,7 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
 
   const validateData = databaseSchema.parse(body);
 
-  const { databaseId, tags, tagProperty, hiddenChkBoxPropertyName } =
+  const { databaseId, tags, tagPropertyName, hiddenChkBoxPropertyName } =
     validateData;
 
   const { results } = await notion.databases.query({
@@ -26,7 +26,7 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
           or: [
             ...tags.map((tag) => {
               return {
-                property: tagProperty,
+                property: tagPropertyName,
                 multi_select: {
                   contains: tag,
                 },
