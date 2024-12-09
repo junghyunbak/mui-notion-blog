@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  isNotionPropertyCorrectType,
+  getStatusFromNotionPageObject,
+  getTagsFromNotionPageObject,
   isPageObjectResponse,
   notion,
 } from "@/utils";
@@ -24,68 +25,44 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
     database_id: databaseId,
   });
 
-  const tags: Map<TagName, { totalCount: number; completeCount: number }> =
-    new Map();
+  const tagToCount: Map<
+    TagName,
+    { totalCount: number; completeCount: number }
+  > = new Map();
 
   results.forEach((value) => {
     if (!isPageObjectResponse(value)) {
       return;
     }
 
-    const tagProperty = (() => {
-      const property = value.properties[tagPropertyName];
+    const { properties } = value;
 
-      if (
-        !isNotionPropertyCorrectType(property, tagPropertyName, "multi_select")
-      ) {
-        return null;
+    const tags = getTagsFromNotionPageObject(properties[tagPropertyName]);
+    const status = getStatusFromNotionPageObject(
+      properties[statusPropertyName || ""]
+    );
+
+    tags.forEach((tag) => {
+      if (!tagToCount.has(tag)) {
+        tagToCount.set(tag, { totalCount: 0, completeCount: 0 });
       }
 
-      return property;
-    })();
+      const countObj = tagToCount.get(tag);
 
-    const statusProperty = (() => {
-      if (!statusPropertyName) {
-        return null;
+      if (!countObj) {
+        return;
       }
 
-      const property = value.properties[statusPropertyName];
+      countObj.totalCount++;
 
-      if (
-        !isNotionPropertyCorrectType(property, statusPropertyName, "status")
-      ) {
-        return null;
-      }
-
-      return property;
-    })();
-
-    if (!tagProperty) {
-      return;
-    }
-
-    tagProperty.multi_select.forEach(({ name }) => {
-      if (!tags.has(name)) {
-        tags.set(name, { totalCount: 0, completeCount: 0 });
-      }
-
-      const countObj = tags.get(name);
-
-      if (countObj) {
-        countObj.totalCount++;
-
-        if (
-          statusProperty &&
-          statusProperty.status?.name === statusCompleteSelectName
-        ) {
-          countObj.completeCount++;
-        }
+      if (status && status.name === statusCompleteSelectName) {
+        countObj.completeCount++;
       }
     });
   });
 
   return NextResponse.json<ApiRoutes.Response<"/api/notion/databases/tags">>({
-    data: { tags: Array.from(tags.entries()) },
+    data: { tags: Array.from(tagToCount.entries()) },
     message: "",
   });
 });

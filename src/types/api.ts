@@ -14,6 +14,7 @@ export const databaseSchema = z.object({
   tagPropertyName: z.string(),
   tags: z.string().array(),
   hiddenChkBoxPropertyName: z.string(),
+  datePropertyName: z.string().optional(),
 });
 
 export const githubRepoSchema = z.object({

@@ -48,14 +48,28 @@ export const useFetchGithubRepoReleases = (owner: string, repo: string) => {
   return data;
 };
 
-export const useFetchNotionDatabasePages = (
-  tags: string[],
-  databaseId: string,
-  tagPropertyName: string,
-  hiddenChkBoxPropertyName: string
-) => {
+export const useFetchNotionDatabasePages = ({
+  tags,
+  tagPropertyName,
+  databaseId,
+  hiddenChkBoxPropertyName,
+  datePropertyName,
+}: {
+  tags: string[];
+  databaseId: string;
+  tagPropertyName: string;
+  hiddenChkBoxPropertyName: string;
+  datePropertyName?: string;
+}) => {
   const { data } = useQuery({
-    queryKey: ["pages", ...tags],
+    queryKey: [
+      "notion-database-pages",
+      tagPropertyName,
+      databaseId,
+      hiddenChkBoxPropertyName,
+      datePropertyName,
+      ...tags,
+    ],
     queryFn: async () => {
       const {
         data: {
@@ -70,6 +84,7 @@ export const useFetchNotionDatabasePages = (
         tags,
         tagPropertyName,
         hiddenChkBoxPropertyName: hiddenChkBoxPropertyName,
+        datePropertyName,
       });
 
       return pages;
@@ -86,7 +101,13 @@ export const useFetchDatabaseTags = (
   statusCompleteSelectName?: string
 ) => {
   const { data } = useQuery({
-    queryKey: ["dev-log-filter"],
+    queryKey: [
+      "notion-database-tags",
+      databaseId,
+      tagPropertyName,
+      statusPropertyName,
+      statusCompleteSelectName,
+    ],
     queryFn: async () => {
       const {
         data: {

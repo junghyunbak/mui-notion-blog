@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { type PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+  QueryDatabaseParameters,
+  type PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import { isPageObjectResponse, notion } from "@/utils";
 import { databaseSchema } from "@/types/api";
 import { ApiRoutesErrorHandler } from "@/error";
@@ -9,8 +12,22 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
 
   const validateData = databaseSchema.parse(body);
 
-  const { databaseId, tags, tagPropertyName, hiddenChkBoxPropertyName } =
-    validateData;
+  const {
+    databaseId,
+    tags,
+    tagPropertyName,
+    hiddenChkBoxPropertyName,
+    datePropertyName,
+  } = validateData;
+
+  const sorts: QueryDatabaseParameters["sorts"] = [];
+
+  if (datePropertyName) {
+    sorts.push({
+      property: datePropertyName,
+      direction: "descending",
+    });
+  }
 
   const { results } = await notion.databases.query({
     database_id: databaseId,
@@ -36,12 +53,7 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
         },
       ],
     },
-    sorts: [
-      {
-        property: "생성 일시",
-        direction: "descending",
-      },
-    ],
+    sorts,
   });
 
   const pages: PageObjectResponse[] = results.filter((value) =>

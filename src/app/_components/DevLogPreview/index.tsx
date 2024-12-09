@@ -13,10 +13,15 @@ import {
 import { GradientPaper } from "@/components/core/GradientPaper";
 import { FullSizeSkeleton } from "@/components/core/FullSizeSkeleton";
 import { NotionPageCard } from "@/components/widget/NotionPageCard";
-import { isNotionPropertyCorrectType } from "@/utils";
 import { useRouter } from "next/navigation";
-import noImage from "@/assets/image/no-image.jpg";
 import { ExpandMore } from "@mui/icons-material";
+import {
+  getCreateTimeFromNotionPageObject,
+  getIconUrlFromNotionPageObject,
+  getImageUrlFromNotionPageObject,
+  getTagsFromNotionPageObject,
+  getTitleFromNotionPageObject,
+} from "@/utils";
 
 const ResponsiveGrid = styled(Grid)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
@@ -43,12 +48,13 @@ const MobileBox = styled(Box)(({ theme }) => ({
 export function DevLogPreivew() {
   const router = useRouter();
 
-  const pages = useFetchNotionDatabasePages(
-    [],
-    NOTION.DEV_LOG_DATABASE.ID,
-    NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT,
-    NOTION.DEV_LOG_DATABASE.PROPERTY.CHECKBOX
-  );
+  const pages = useFetchNotionDatabasePages({
+    tags: [],
+    databaseId: NOTION.DEV_LOG_DATABASE.ID,
+    datePropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.DATE,
+    hiddenChkBoxPropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.CHECKBOX,
+    tagPropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT,
+  });
 
   if (!pages) {
     return (
@@ -72,98 +78,22 @@ export function DevLogPreivew() {
 
   return (
     <ResponsiveGrid container xs={12} sx={{ width: "100%" }} spacing={2}>
-      {pages.slice(0, 3).map((page) => {
-        const { id, properties, cover, icon } = page;
-
-        const title = (() => {
-          const property = properties[NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE];
-
-          if (
-            !isNotionPropertyCorrectType(
-              property,
-              NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE,
-              "title"
-            )
-          ) {
-            return "";
-          }
-
-          const [textItem] = property.title;
-
-          if (textItem.type !== "text") {
-            return "";
-          }
-
-          return textItem.text.content;
-        })();
-
-        const imageUrl = (() => {
-          if (!cover) {
-            return noImage.src;
-          }
-
-          if (cover.type === "external") {
-            return cover.external.url;
-          }
-
-          return cover.file.url;
-        })();
-
-        const iconUrl = (() => {
-          if (!icon) {
-            return null;
-          }
-
-          if (icon.type === "emoji") {
-            return icon.emoji;
-          }
-
-          if (icon.type === "external") {
-            return icon.external.url;
-          }
-
-          return icon.file.url;
-        })();
-
-        const createTime = (() => {
-          const property =
-            properties[NOTION.DEV_LOG_DATABASE.PROPERTY.CREATE_TIME];
-
-          if (
-            !isNotionPropertyCorrectType(
-              property,
-              NOTION.DEV_LOG_DATABASE.PROPERTY.CREATE_TIME,
-              "created_time"
-            )
-          ) {
-            return "";
-          }
-
-          return property.created_time;
-        })();
-
-        const tags = (() => {
-          const property =
-            properties[NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT];
-
-          if (
-            !isNotionPropertyCorrectType(
-              property,
-              NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT,
-              "multi_select"
-            )
-          ) {
-            return [];
-          }
-
-          return property.multi_select.map((select) => select.name);
-        })();
+      {pages.slice(0, 3).map(({ id, properties, cover, icon }) => {
+        const title = getTitleFromNotionPageObject(
+          properties[NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE]
+        );
+        const imageUrl = getImageUrlFromNotionPageObject(cover);
+        const iconUrl = getIconUrlFromNotionPageObject(icon);
+        const createDate = getCreateTimeFromNotionPageObject(
+          properties[NOTION.DEV_LOG_DATABASE.PROPERTY.DATE]
+        );
+        const tags = getTagsFromNotionPageObject(
+          properties[NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT]
+        );
 
         const handleCardClick = () => {
           router.push(`/dev-log/${id}`);
         };
-
-        const date = new Date(createTime);
 
         return (
           <Grid item xs={10.5} sm={5.25} md={3.5} key={id}>
@@ -171,7 +101,7 @@ export function DevLogPreivew() {
               title={title}
               imageUrl={imageUrl}
               iconUrl={iconUrl}
-              date={date}
+              date={createDate}
               tags={tags}
               handleCardClick={handleCardClick}
             />

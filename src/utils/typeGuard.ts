@@ -26,7 +26,6 @@ export function isNotionPropertyCorrectType<
   T extends NotionPageObjectdProperties
 >(
   property: PageObjectResponse["properties"][number] | undefined,
-  name: string,
   type: T
 ): property is ExtractType<PageObjectResponse["properties"][number], T> {
   if (!property) {

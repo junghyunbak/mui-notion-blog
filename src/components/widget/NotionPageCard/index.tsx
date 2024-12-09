@@ -12,7 +12,7 @@ import {
 
 interface NotionPageCardProps {
   imageUrl: string;
-  iconUrl: null | string;
+  iconUrl: string;
   title: string;
   tags: string[];
   date: Date;
@@ -44,9 +44,7 @@ export function NotionPageCard({
               alignItems: "center",
             }}
           >
-            {iconUrl === null ? null : !iconUrl.startsWith("http") ? (
-              <Typography variant="h4">{iconUrl}</Typography>
-            ) : (
+            {iconUrl.startsWith("http") ? (
               <Box
                 component="img"
                 src={iconUrl}
@@ -55,6 +53,8 @@ export function NotionPageCard({
                   height: "100%",
                 }}
               />
+            ) : (
+              <Typography variant="h4">{iconUrl}</Typography>
             )}
           </Box>
         </CardMedia>

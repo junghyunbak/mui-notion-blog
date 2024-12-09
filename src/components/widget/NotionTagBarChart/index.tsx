@@ -67,7 +67,7 @@ export function NotionTagBarChart() {
           }}
         >
           <Typography variant="body1" sx={{ color: "#303741" }}>
-            작성중인 글
+            개발 일지
           </Typography>
 
           <Stack direction="row" spacing={1.5}>

@@ -68,6 +68,19 @@ export function Header() {
           >
             개발 일지
           </Button>
+
+          <Button
+            variant="text"
+            sx={{
+              color: "#303741",
+              fontWeight: "bold",
+            }}
+            onClick={() => {
+              router.push("/snippet");
+            }}
+          >
+            Snippet
+          </Button>
         </Stack>
 
         <Tooltip title="Github" arrow>

@@ -1,6 +1,10 @@
 import { DetailContents } from "./_components/DetailContents";
 import { type Metadata } from "next";
-import { isNotionPropertyCorrectType, notion } from "@/utils";
+import {
+  getTitleFromNotionPageObject,
+  isPageObjectResponse,
+  notion,
+} from "@/utils";
 import { NOTION } from "@/constants";
 import { NotionAPI } from "notion-client";
 
@@ -18,29 +22,13 @@ export async function generateMetadata({
   });
 
   const title = (() => {
-    if (!("properties" in page)) {
+    if (!isPageObjectResponse(page)) {
       return "";
     }
 
-    const property = page.properties[NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE];
-
-    if (
-      !isNotionPropertyCorrectType(
-        property,
-        NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE,
-        "title"
-      )
-    ) {
-      return;
-    }
-
-    const [textItem] = property.title;
-
-    if (textItem.type !== "text") {
-      return "";
-    }
-
-    return textItem.text.content;
+    return getTitleFromNotionPageObject(
+      page.properties[NOTION.DEV_LOG_DATABASE.PROPERTY.TITLE]
+    );
   })();
 
   return {
