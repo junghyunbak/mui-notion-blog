@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Metadata } from "next";
 import { GithubReleasesLineChart } from "@/components/widget/GithubReleasesLineChart";
-import { Stack, Grid, colors } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
 import { GradientPaper } from "@/components/core/GradientPaper";
+import { DevLogPreivew } from "./_components/DevLogPreview";
 
 export function generateMetadata(): Metadata {
   return {
@@ -81,6 +82,8 @@ export default async function Home() {
         >
           <GradientPaper sx={{ width: "100%", height: "100%" }} />
         </Grid>
+
+        <DevLogPreivew />
       </Grid>
     </Stack>
   );

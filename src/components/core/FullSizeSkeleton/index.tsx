@@ -5,6 +5,7 @@ interface FullSizeSkeleton extends SkeletonProps {}
 export function FullSizeSkeleton({ sx, ...props }: FullSizeSkeleton) {
   return (
     <Skeleton
+      animation="wave"
       sx={{
         width: "100%",
         height: "100%",

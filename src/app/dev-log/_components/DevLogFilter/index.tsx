@@ -34,6 +34,7 @@ export function DevLogFilter() {
             return (
               <ListItem key={i}>
                 <Skeleton
+                  animation="wave"
                   width={40}
                   height={32}
                   sx={{ transform: "none", borderRadius: 16 }}
