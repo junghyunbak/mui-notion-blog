@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Skeleton, Stack, Typography } from "@mui/material";
+import { Avatar, Stack, Typography } from "@mui/material";
 import {
   AreaPlot,
   LinePlot,
@@ -9,8 +9,9 @@ import {
   ResponsiveChartContainer,
 } from "@mui/x-charts";
 import { FileDownload } from "@mui/icons-material";
-import { Layout, TopContent } from "./index.styles";
+import { BottomContent, Layout, TopContent } from "./index.styles";
 import { useFetchGithubRepoReleases } from "@/hooks";
+import { FullSizeSkeleton } from "@/components/core/FullSizeSkeleton";
 
 interface GithubReleasesLineChartProps {
   owner: string;
@@ -24,9 +25,7 @@ export function GithubReleasesLineChart({
   const releases = useFetchGithubRepoReleases(owner, repo);
 
   if (!releases) {
-    return (
-      <Skeleton sx={{ width: "100%", height: "100%", transform: "none" }} />
-    );
+    return <FullSizeSkeleton />;
   }
 
   const downloadCount = releases.reduce(
@@ -47,12 +46,9 @@ export function GithubReleasesLineChart({
   return (
     <Layout>
       <TopContent>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
+        <Stack
+          direction="row"
+          sx={{ width: "100%", justifyContent: "space-between" }}
         >
           <Stack>
             <Typography variant="body2" sx={{ color: "gray" }} gutterBottom>
@@ -64,10 +60,10 @@ export function GithubReleasesLineChart({
           <Avatar>
             <FileDownload />
           </Avatar>
-        </Box>
+        </Stack>
       </TopContent>
 
-      <Box sx={{ height: "50%" }}>
+      <BottomContent>
         <ResponsiveChartContainer
           skipAnimation
           xAxis={[
@@ -111,7 +107,7 @@ export function GithubReleasesLineChart({
           <LinePlot />
           <AreaPlot />
         </ResponsiveChartContainer>
-      </Box>
+      </BottomContent>
     </Layout>
   );
 }

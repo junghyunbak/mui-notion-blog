@@ -11,7 +11,7 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 export function DevLogFilter() {
-  const tags = useFetchDatabaseTags(NOTION.DEV_LOG_DATABASE_ID);
+  const tags = useFetchDatabaseTags(NOTION.DEV_LOG_DATABASE.ID);
 
   if (!tags) {
     return (
@@ -63,7 +63,7 @@ export function DevLogFilter() {
         return (
           <ListItem key={tagName}>
             <Chip
-              category={NOTION.DEV_LOG_DATABASE_TAG_PROPERTY}
+              category={NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT}
               value={tagName}
             />
           </ListItem>

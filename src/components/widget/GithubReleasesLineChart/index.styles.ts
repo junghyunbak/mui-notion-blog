@@ -18,3 +18,7 @@ export const TopContent = styled(Box)(({ theme }) => ({
     padding: "1.5rem",
   },
 }));
+
+export const BottomContent = styled(Box)(() => ({
+  height: "50%",
+}));

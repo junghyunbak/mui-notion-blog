@@ -16,3 +16,26 @@ export function isPageObjectResponse(
 
   return true;
 }
+
+type ExtractType<T, U> = T extends { type: U } ? T : never;
+
+type NotionPageObjectdProperties<T = PageObjectResponse["properties"][number]> =
+  T extends { type: string } ? T["type"] : never;
+
+export function isNotionPropertyCorrectType<
+  T extends NotionPageObjectdProperties
+>(
+  property: PageObjectResponse["properties"][number] | undefined,
+  name: string,
+  type: T
+): property is ExtractType<PageObjectResponse["properties"][number], T> {
+  if (!property) {
+    return false;
+  }
+
+  if (property.type !== type) {
+    return false;
+  }
+
+  return true;
+}

@@ -1,9 +1,17 @@
 "use client";
 
-import { Avatar, colors, Box, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  colors,
+  Box,
+  Stack,
+  Typography,
+  Skeleton,
+} from "@mui/material";
 import { AccessTime } from "@mui/icons-material";
 import { Layout } from "./index.styles";
 import { useFetchGithubUser } from "@/hooks";
+import { FullSizeSkeleton } from "@/components/core/FullSizeSkeleton";
 
 interface GithubUser {
   username: string;
@@ -13,7 +21,7 @@ export function GithubUser({ username }: GithubUser) {
   const user = useFetchGithubUser(username);
 
   if (!user) {
-    return;
+    return <FullSizeSkeleton />;
   }
 
   return (
