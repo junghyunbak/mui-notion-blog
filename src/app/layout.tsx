@@ -7,6 +7,7 @@ import { Box, colors, Container, Stack } from "@mui/material";
 import { ReactQueryProvider } from "./_components/ReactQueryProvider";
 import { Header } from "./_components/Header";
 import theme from "@/theme";
+import { Footer } from "./_components/Footer";
 
 export function generateMetadata(): Metadata {
   return {
@@ -38,17 +39,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                   </React.Suspense>
                 </Container>
               </Box>
-              {/**
-               * footer
-               */}
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "300px",
-                  background: "white",
-                  borderTop: "1px solid rgba(0, 0, 0, 0.12)",
-                }}
-              />
+              <Footer />
             </ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
