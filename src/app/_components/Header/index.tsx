@@ -16,7 +16,7 @@ export function Header() {
         borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
         position: "sticky",
         top: 0,
-        zIndex: 10,
+        zIndex: 201,
         backdropFilter: "blur(10px)",
         display: "flex",
         justifyContent: "center",
