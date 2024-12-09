@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import { GithubReleasesLineChart } from "@/components/widget/GithubReleasesLineChart";
 import { Stack, Grid } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
-import { GradientPaper } from "@/components/core/GradientPaper";
 import { DevLogPreivew } from "./_components/DevLogPreview";
 import { NotionTagBarChart } from "@/components/widget/NotionTagBarChart";
+import { IntroStepper } from "@/components/widget/IntroStepper";
 
 export function generateMetadata(): Metadata {
   return {
@@ -41,9 +41,7 @@ export default async function Home() {
             md={12}
             sx={{ width: "100%", aspectRatio: "8/3" }}
           >
-            <GradientPaper
-              sx={{ width: "100%", height: "100%" }}
-            ></GradientPaper>
+            <IntroStepper />
           </Grid>
 
           <Grid
