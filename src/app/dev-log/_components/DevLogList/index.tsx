@@ -8,8 +8,10 @@ import { useFetchNotionDatabasePages } from "@/hooks";
 import { NOTION } from "@/constants";
 import noImage from "@/assets/image/no-image.jpg";
 import { isNotionPropertyCorrectType } from "@/utils";
+import { useRouter } from "next/navigation";
 
 export function DevLogList() {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const tags = searchParams
@@ -125,17 +127,21 @@ export function DevLogList() {
           return property.multi_select.map((select) => select.name);
         })();
 
+        const handleCardClick = () => {
+          router.push(`/dev-log/${id}`);
+        };
+
         const date = new Date(createTime);
 
         return (
           <Grid2 key={id} size={{ xs: 12, sm: 6, md: 4 }}>
             <NotionPageCard
-              id={id}
               title={title}
               imageUrl={imageUrl}
               iconUrl={iconUrl}
               date={date}
               tags={tags}
+              handleCardClick={handleCardClick}
             />
           </Grid2>
         );

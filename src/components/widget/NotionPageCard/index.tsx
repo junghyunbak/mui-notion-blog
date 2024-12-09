@@ -9,34 +9,27 @@ import {
   Chip,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
 
 interface NotionPageCardProps {
-  id: string;
   imageUrl: string;
   iconUrl: null | string;
   title: string;
   tags: string[];
   date: Date;
+  handleCardClick: () => void;
 }
 
 export function NotionPageCard({
-  id,
   imageUrl,
   iconUrl,
   title,
   date,
   tags,
+  handleCardClick,
 }: NotionPageCardProps) {
-  const router = useRouter();
-
   return (
     <GradientCard>
-      <CardActionArea
-        onClick={() => {
-          router.push(`/dev-log-detail/${id}`);
-        }}
-      >
+      <CardActionArea onClick={handleCardClick}>
         <CardMedia image={imageUrl} sx={{ height: 140, position: "relative" }}>
           <Box
             sx={{
