@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Metadata } from "next";
 import { GithubReleasesLineChart } from "@/components/widget/GithubReleasesLineChart";
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid, colors } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
 import { GradientPaper } from "@/components/core/GradientPaper";
 
@@ -13,22 +13,17 @@ export function generateMetadata(): Metadata {
 
 export default async function Home() {
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
+    <Stack
+      spacing={2}
+      sx={{
+        width: "100%",
+      }}
+    >
       <Grid
         container
         spacing={2}
         sx={{ marginTop: "-16px !important", marginLeft: "-16px !important" }}
       >
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          sx={{ width: "100%", aspectRatio: "4/3" }}
-        >
-          <GradientPaper sx={{ width: "100%", height: "100%" }} />
-        </Grid>
-
         <Grid
           container
           xs={12}
@@ -75,6 +70,16 @@ export default async function Home() {
               <GithubUser username="junghyunbak" />
             </Grid>
           </Grid>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          sx={{ width: "100%", aspectRatio: "4/3" }}
+        >
+          <GradientPaper sx={{ width: "100%", height: "100%" }} />
         </Grid>
       </Grid>
     </Stack>
