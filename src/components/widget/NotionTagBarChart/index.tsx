@@ -4,8 +4,9 @@ import { FullSizeSkeleton } from "@/components/core/FullSizeSkeleton";
 import { GradientPaper } from "@/components/core/GradientPaper";
 import { NOTION } from "@/constants";
 import { useFetchDatabaseTags } from "@/hooks";
-import { colors } from "@mui/material";
+import { colors, Box, Stack, Typography } from "@mui/material";
 import {
+  BarLabel,
   BarPlot,
   ChartsXAxis,
   ChartsYAxis,
@@ -29,12 +30,14 @@ export function NotionTagBarChart() {
     type: "bar",
     data: tags.map(([_, { totalCount }]) => totalCount),
     color: colors.blue["50"],
+    label: "작성 중",
   };
 
   const completeCountRow: ChartsSeriesConfig["bar"]["seriesProp"] = {
     type: "bar",
     data: tags.map(([_, { completeCount }]) => completeCount),
     color: colors.blue["700"],
+    label: "완료",
   };
 
   const emptyRowCount: ChartsSeriesConfig["bar"]["seriesProp"] = {
@@ -54,22 +57,63 @@ export function NotionTagBarChart() {
 
   return (
     <GradientPaper sx={{ width: "100%", height: "100%" }}>
-      <ResponsiveChartContainer
-        xAxis={[{ scaleType: "band", data: xData }]}
-        series={yData}
-        sx={{
-          [`& .MuiChartsAxis-root text`]: {
-            fill: colors.grey["400"],
-          },
-          [`& .MuiChartsAxis-root line`]: {
-            stroke: colors.blue["50"],
-          },
-        }}
-      >
-        <BarPlot borderRadius={4} />
-        <ChartsXAxis disableTicks />
-        <ChartsYAxis disableLine disableTicks />
-      </ResponsiveChartContainer>
+      <Stack sx={{ width: "100%", height: "100%" }}>
+        <Stack
+          direction="row"
+          sx={{
+            px: "2rem",
+            pt: "2rem",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="body1" sx={{ color: "#303741" }}>
+            작성중인 글
+          </Typography>
+
+          <Stack direction="row" spacing={1.5}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Box
+                sx={{
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: colors.blue["700"],
+                  borderRadius: 9999,
+                }}
+              />
+              <Typography variant="body2">완성</Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Box
+                sx={{
+                  width: "10px",
+                  height: "10px",
+                  backgroundColor: colors.blue["50"],
+                  borderRadius: 9999,
+                }}
+              />
+              <Typography variant="body2">작성 중</Typography>
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <ResponsiveChartContainer
+          xAxis={[{ scaleType: "band", data: xData }]}
+          series={yData}
+          sx={{
+            [`& .MuiChartsAxis-root text`]: {
+              fill: colors.grey["400"],
+            },
+            [`& .MuiChartsAxis-root line`]: {
+              stroke: colors.blue["50"],
+            },
+          }}
+        >
+          <BarPlot borderRadius={4} />
+          <ChartsXAxis disableTicks />
+          <ChartsYAxis disableLine disableTicks />
+        </ResponsiveChartContainer>
+      </Stack>
     </GradientPaper>
   );
 }
