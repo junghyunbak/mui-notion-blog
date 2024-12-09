@@ -6,6 +6,7 @@ import { GithubUser } from "@/components/widget/GithubUser";
 import { DevLogPreivew } from "./_components/DevLogPreview";
 import { NotionTagBarChart } from "@/components/widget/NotionTagBarChart";
 import { IntroStepper } from "@/components/widget/IntroStepper";
+import { SnippetPreview } from "./_components/SnippetPreview";
 
 export function generateMetadata(): Metadata {
   return {
@@ -85,6 +86,7 @@ export default async function Home() {
         </Grid>
 
         <DevLogPreivew />
+        <SnippetPreview />
       </Grid>
     </Stack>
   );
