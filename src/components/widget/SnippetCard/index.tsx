@@ -12,12 +12,18 @@ interface SnippetCard {
   title: string;
   imageUrl: string;
   tags: string[];
+  handleCardClick: () => void;
 }
 
-export function SnippetCard({ title, tags, imageUrl }: SnippetCard) {
+export function SnippetCard({
+  title,
+  tags,
+  imageUrl,
+  handleCardClick,
+}: SnippetCard) {
   return (
     <GradientCard>
-      <CardActionArea sx={{ display: "flex" }}>
+      <CardActionArea sx={{ display: "flex" }} onClick={handleCardClick}>
         <CardMedia image={imageUrl} sx={{ width: "100px", height: "100px" }} />
 
         <CardContent sx={{ flex: 1, overflow: "hidden" }}>
