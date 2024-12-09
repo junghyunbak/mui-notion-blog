@@ -8,6 +8,7 @@ import { Code } from "react-notion-x/build/third-party/code";
 import { Collection } from "react-notion-x/build/third-party/collection";
 
 import "react-notion-x/src/styles.css";
+import "prismjs/themes/prism.css";
 
 interface DetailContentsProps {
   recordMap: Awaited<ReturnType<InstanceType<typeof NotionAPI>["getPage"]>>;
