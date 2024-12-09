@@ -83,9 +83,7 @@ export default async function Home() {
           md={6}
           sx={{ width: "100%", aspectRatio: "4/3" }}
         >
-          <GradientPaper sx={{ width: "100%", height: "100%" }}>
-            <NotionTagBarChart />
-          </GradientPaper>
+          <NotionTagBarChart />
         </Grid>
 
         <DevLogPreivew />

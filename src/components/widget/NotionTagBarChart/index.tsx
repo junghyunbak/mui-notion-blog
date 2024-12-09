@@ -1,17 +1,17 @@
 "use client";
 
+import { FullSizeSkeleton } from "@/components/core/FullSizeSkeleton";
+import { GradientPaper } from "@/components/core/GradientPaper";
 import { NOTION } from "@/constants";
 import { useFetchDatabaseTags } from "@/hooks";
 import { colors } from "@mui/material";
 import {
-  AllSeriesType,
-  barElementClasses,
   BarPlot,
   ChartsXAxis,
   ChartsYAxis,
   ResponsiveChartContainer,
 } from "@mui/x-charts";
-import { ChartSeriesType, ChartsSeriesConfig } from "@mui/x-charts/internals";
+import { ChartsSeriesConfig } from "@mui/x-charts/internals";
 
 export function NotionTagBarChart() {
   const tags = useFetchDatabaseTags(
@@ -21,10 +21,8 @@ export function NotionTagBarChart() {
     NOTION.DEV_LOG_DATABASE.PROPERTY.STATUS.SELECT.완료
   );
 
-  console.log("테스트", tags);
-
   if (!tags) {
-    return null;
+    return <FullSizeSkeleton />;
   }
 
   const totalCountRow: ChartsSeriesConfig["bar"]["seriesProp"] = {
@@ -55,21 +53,23 @@ export function NotionTagBarChart() {
   ];
 
   return (
-    <ResponsiveChartContainer
-      xAxis={[{ scaleType: "band", data: xData }]}
-      series={yData}
-      sx={{
-        [`& .MuiChartsAxis-root text`]: {
-          fill: colors.grey["400"],
-        },
-        [`& .MuiChartsAxis-root line`]: {
-          stroke: colors.blue["50"],
-        },
-      }}
-    >
-      <BarPlot borderRadius={4} />
-      <ChartsXAxis disableTicks />
-      <ChartsYAxis disableLine disableTicks />
-    </ResponsiveChartContainer>
+    <GradientPaper sx={{ width: "100%", height: "100%" }}>
+      <ResponsiveChartContainer
+        xAxis={[{ scaleType: "band", data: xData }]}
+        series={yData}
+        sx={{
+          [`& .MuiChartsAxis-root text`]: {
+            fill: colors.grey["400"],
+          },
+          [`& .MuiChartsAxis-root line`]: {
+            stroke: colors.blue["50"],
+          },
+        }}
+      >
+        <BarPlot borderRadius={4} />
+        <ChartsXAxis disableTicks />
+        <ChartsYAxis disableLine disableTicks />
+      </ResponsiveChartContainer>
+    </GradientPaper>
   );
 }

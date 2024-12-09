@@ -194,6 +194,9 @@ export function DevLogPreivew() {
               justifyContent: "center",
               alignItems: "center",
             }}
+            onClick={() => {
+              router.push("/dev-log");
+            }}
           >
             {
               <MobileBox>
