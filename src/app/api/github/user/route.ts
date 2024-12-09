@@ -1,17 +1,14 @@
-import { AppRoutesResponse } from "@/utils/api";
 import { NextResponse, type NextRequest } from "next/server";
-import { Octokit } from "@octokit/rest";
+import { githubUserSchema } from "@/types/api";
+import { ApiRoutesErrorHandler } from "@/error";
+import { octokit } from "@/utils";
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_API_TOKEN,
-});
+export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
+  const body = await req.json();
 
-export async function GET(request: NextRequest) {
-  const username = request.nextUrl.searchParams.get("username");
+  const validateBody = githubUserSchema.parse(body);
 
-  if (!username) {
-    return NextResponse.error();
-  }
+  const { username } = validateBody;
 
   const { data } = await octokit.request("GET /users/{username}", {
     username,
@@ -20,10 +17,15 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  return AppRoutesResponse.json("/api/github/user", {
-    data: {
-      user: data,
+  return NextResponse.json<ApiRoutes.Response<"/api/github/user">>(
+    {
+      data: {
+        user: data,
+      },
+      message: "정상적으로 데이터를 불러왔습니다.",
     },
-    message: "",
-  });
-}
+    {
+      status: 200,
+    }
+  );
+});

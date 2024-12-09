@@ -1,37 +1,18 @@
 "use client";
 
 import { Avatar, colors, Box, Stack, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { AccessTime } from "@mui/icons-material";
 import { Layout } from "./index.styles";
+import { useFetchGithubUser } from "@/hooks";
 
 interface GithubUser {
   username: string;
 }
 
 export function GithubUser({ username }: GithubUser) {
-  const { data } = useQuery({
-    queryKey: ["github-user", username],
-    queryFn: async () => {
-      const {
-        data: {
-          data: { user },
-        },
-      } = await axios.get<ResponseData["/api/github/user"]>(
-        "/api/github/user",
-        {
-          params: {
-            username,
-          },
-        }
-      );
+  const user = useFetchGithubUser(username);
 
-      return user;
-    },
-  });
-
-  if (!data) {
+  if (!user) {
     return;
   }
 
@@ -55,7 +36,7 @@ export function GithubUser({ username }: GithubUser) {
               border: "1px solid white",
             }}
           >
-            <Avatar src={data.avatar_url}></Avatar>
+            <Avatar src={user.avatar_url}></Avatar>
           </Box>
 
           <Stack sx={{ justifyContent: "center" }}>

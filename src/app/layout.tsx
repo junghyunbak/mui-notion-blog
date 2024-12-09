@@ -1,12 +1,12 @@
 import * as React from "react";
+import { type Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "@/theme";
+import { Container, Stack } from "@mui/material";
 import { ReactQueryProvider } from "./_components/ReactQueryProvider";
 import { Header } from "./_components/Header";
-import { Container, Box } from "@mui/material";
-import { type Metadata } from "next";
+import theme from "@/theme";
 
 export function generateMetadata(): Metadata {
   return {
@@ -22,24 +22,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body style={{ background: "#F1F7FC" }}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-
             <ReactQueryProvider>
               <React.Suspense>
                 <Header />
                 <Container maxWidth="lg">
-                  <Box
-                    sx={{
-                      my: 4,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    {props.children}
-                  </Box>
+                  <Stack sx={{ my: 4 }}>{props.children}</Stack>
                 </Container>
               </React.Suspense>
             </ReactQueryProvider>

@@ -8,10 +8,9 @@ import {
   lineElementClasses,
   ResponsiveChartContainer,
 } from "@mui/x-charts";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { FileDownload } from "@mui/icons-material";
 import { Layout, TopContent } from "./index.styles";
+import { useFetchGithubRepoReleases } from "@/hooks";
 
 interface GithubReleasesLineChartProps {
   owner: string;
@@ -22,34 +21,15 @@ export function GithubReleasesLineChart({
   owner,
   repo,
 }: GithubReleasesLineChartProps) {
-  const { data } = useQuery({
-    queryKey: ["github-traffic-chart", owner, repo],
-    queryFn: async () => {
-      const {
-        data: {
-          data: { releases },
-        },
-      } = await axios.get<ResponseData["/api/github/releases"]>(
-        "/api/github/releases",
-        {
-          params: {
-            owner,
-            repo,
-          },
-        }
-      );
+  const releases = useFetchGithubRepoReleases(owner, repo);
 
-      return releases;
-    },
-  });
-
-  if (!data) {
+  if (!releases) {
     return (
       <Skeleton sx={{ width: "100%", height: "100%", transform: "none" }} />
     );
   }
 
-  const downloadCount = data.reduce(
+  const downloadCount = releases.reduce(
     (totalDownload, release) =>
       totalDownload +
       release.assets.reduce(
@@ -59,8 +39,8 @@ export function GithubReleasesLineChart({
     0
   );
 
-  const xData = data.map((_, i) => i);
-  const yData = data
+  const xData = releases.map((_, i) => i);
+  const yData = releases
     .map((release) => release.assets.reduce((a, c) => a + c.download_count, 0))
     .reverse();
 

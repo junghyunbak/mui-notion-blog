@@ -4,32 +4,33 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Chip as MuiChip } from "@mui/material";
 
 interface ChipProps {
-  tagName: string;
+  category: string;
+  value: string;
 }
 
-export function Chip({ tagName }: ChipProps) {
+export function Chip({ category, value }: ChipProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const isSelect = searchParams.getAll("tag").includes(tagName);
+  const isSelect = searchParams.getAll(category).includes(value);
 
   const handleChipClick = () => {
     const nextSearchParams = isSelect
       ? new URLSearchParams(
           Array.from(searchParams.entries()).filter(
             ([queryKey, queryValue]) =>
-              !(queryKey === "tag" && queryValue === tagName)
+              !(queryKey === category && queryValue === value)
           )
         )
-      : new URLSearchParams([...Array.from(searchParams), ["tag", tagName]]);
+      : new URLSearchParams([...Array.from(searchParams), [category, value]]);
 
     router.replace(`${pathname}?${nextSearchParams.toString()}`);
   };
 
   return (
     <MuiChip
-      label={tagName}
+      label={value}
       variant={isSelect ? "filled" : "outlined"}
       onClick={handleChipClick}
       color="primary"

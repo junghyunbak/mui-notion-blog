@@ -1,14 +1,10 @@
-import { NextResponse } from "next/server";
+import { Client } from "@notionhq/client";
+import { Octokit } from "@octokit/rest";
 
-export class AppRoutesResponse {
-  static json<T extends keyof ResponseData>(
-    /**
-     * `pathname`은 실제로 사용되지 않는 매개인자.
-     * 올바른 리턴 값을 전달하기 위한 장치
-     */
-    pathname: T,
-    data: ResponseData[T]
-  ) {
-    return NextResponse.json(data);
-  }
-}
+export const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+});
+
+export const octokit = new Octokit({
+  auth: process.env.GITHUB_API_TOKEN,
+});

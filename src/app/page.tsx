@@ -1,7 +1,6 @@
 import * as React from "react";
-import { DevLog } from "./_components/DevLog";
 import { Metadata } from "next";
-import { GithubReleasesLineChart } from "@/components/widget/GithubTrafficLineChart";
+import { GithubReleasesLineChart } from "@/components/widget/GithubReleasesLineChart";
 import { Stack, Grid } from "@mui/material";
 import { GithubUser } from "@/components/widget/GithubUser";
 import { GradientPaper } from "@/components/core/GradientPaper";
@@ -78,8 +77,6 @@ export default async function Home() {
           </Grid>
         </Grid>
       </Grid>
-
-      <DevLog />
     </Stack>
   );
 }

@@ -1,30 +1,19 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Paper, Skeleton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import axios from "axios";
-import { Chip } from "./Chip";
+import { Chip } from "@/components/widget/Chip";
+import { NOTION } from "@/constants";
+import { useFetchDatabaseTags } from "@/hooks";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export function Filter() {
-  const { data } = useQuery({
-    queryKey: ["filter"],
-    queryFn: async () => {
-      const {
-        data: {
-          data: { tags },
-        },
-      } = await axios.get<ResponseData["/api/dev-log/tag"]>("/api/dev-log/tag");
+export function DevLogFilter() {
+  const tags = useFetchDatabaseTags(NOTION.DEV_LOG_DATABASE_ID);
 
-      return tags;
-    },
-  });
-
-  if (!data) {
+  if (!tags) {
     return (
       <Paper
         sx={{
@@ -70,10 +59,13 @@ export function Filter() {
       variant="outlined"
       component="ul"
     >
-      {data.map(([tagName]) => {
+      {tags.map(([tagName]) => {
         return (
           <ListItem key={tagName}>
-            <Chip tagName={tagName} />
+            <Chip
+              category={NOTION.DEV_LOG_DATABASE_TAG_PROPERTY}
+              value={tagName}
+            />
           </ListItem>
         );
       })}

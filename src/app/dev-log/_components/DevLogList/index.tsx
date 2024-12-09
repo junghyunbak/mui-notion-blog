@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import {
   Box,
   Card,
@@ -12,32 +11,24 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import noImage from "@/assets/image/no-image.jpg";
+import { NOTION } from "@/constants";
+import { useFetchNotionDatabasePages } from "@/hooks";
 
-export function Pages() {
+export function DevLogList() {
   const router = useRouter();
-  const searchParams = new URLSearchParams(useSearchParams());
+  const searchParams = useSearchParams();
 
-  searchParams.sort();
+  const tags = searchParams.getAll(NOTION.DEV_LOG_DATABASE_TAG_PROPERTY).sort();
 
-  const { data } = useQuery({
-    queryKey: ["pages", searchParams.toString()],
-    queryFn: async () => {
-      const {
-        data: {
-          data: { pages },
-        },
-      } = await axios.get<ResponseData["/api/dev-log"]>(
-        `/api/dev-log?${searchParams.toString()}`
-      );
+  const pages = useFetchNotionDatabasePages(
+    tags,
+    NOTION.DEV_LOG_DATABASE_ID,
+    NOTION.DEV_LOG_DATABASE_TAG_PROPERTY
+  );
 
-      return pages;
-    },
-  });
-
-  if (!data) {
+  if (!pages) {
     return (
       <Grid2 container spacing={2}>
         {Array(9)
@@ -57,7 +48,7 @@ export function Pages() {
 
   return (
     <Grid2 container spacing={2}>
-      {data.map((page) => {
+      {pages.map((page) => {
         const { id, properties, cover, icon } = page;
 
         const title = (() => {

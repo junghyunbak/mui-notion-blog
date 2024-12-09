@@ -1,18 +1,14 @@
-import { AppRoutesResponse } from "@/utils/api";
-import { NextResponse, type NextRequest } from "next/server";
-import { Octokit } from "@octokit/rest";
+import { NextRequest, NextResponse } from "next/server";
+import { githubRepoSchema } from "@/types/api";
+import { ApiRoutesErrorHandler } from "@/error";
+import { octokit } from "@/utils";
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_API_TOKEN,
-});
+export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
+  const body = await req.json();
 
-export async function GET(request: NextRequest) {
-  const owner = request.nextUrl.searchParams.get("owner");
-  const repo = request.nextUrl.searchParams.get("repo");
+  const validateBody = githubRepoSchema.parse(body);
 
-  if (!owner || !repo) {
-    return NextResponse.error();
-  }
+  const { owner, repo } = validateBody;
 
   const { data } = await octokit.request("GET /repos/{owner}/{repo}/releases", {
     owner,
@@ -22,10 +18,10 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  return AppRoutesResponse.json("/api/github/releases", {
-    data: {
-      releases: data,
-    },
-    message: "",
-  });
-}
+  return NextResponse.json<ApiRoutes.Response<"/api/github/releases">>(
+    { data: { releases: data }, message: "" },
+    {
+      status: 200,
+    }
+  );
+});

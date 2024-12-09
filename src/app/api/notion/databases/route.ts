@@ -1,17 +1,18 @@
-import { NOTION } from "@/constants";
-import { NextRequest } from "next/server";
-import { Client } from "@notionhq/client";
-import { AppRoutesResponse } from "@/utils/api";
+import { NextRequest, NextResponse } from "next/server";
 import { type PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
-import { isPageObjectResponse } from "@/utils/typeGuard";
+import { isPageObjectResponse, notion } from "@/utils";
+import { databaseSchema } from "@/types/api";
+import { ApiRoutesErrorHandler } from "@/error";
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
+  const body = await req.json();
 
-export async function GET(request: NextRequest) {
-  const tags = request.nextUrl.searchParams.getAll("tag");
+  const validateData = databaseSchema.parse(body);
+
+  const { databaseId, tags, tagProperty } = validateData;
 
   const { results } = await notion.databases.query({
-    database_id: NOTION.DEV_LOG_DATABASE_ID,
+    database_id: databaseId,
     filter: {
       and: [
         {
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
           or: [
             ...tags.map((tag) => {
               return {
-                property: "태그",
+                property: tagProperty,
                 multi_select: {
                   contains: tag,
                 },
@@ -52,8 +53,10 @@ export async function GET(request: NextRequest) {
     isPageObjectResponse(value)
   );
 
-  return AppRoutesResponse.json("/api/dev-log", {
-    data: { pages },
-    message: "",
+  return NextResponse.json<ApiRoutes.Response<"/api/notion/databases">>({
+    data: {
+      pages,
+    },
+    message: "정상적으로 데이터를 불러왔습니다.",
   });
-}
+});
