@@ -11,7 +11,7 @@ export const ApiRoutesErrorHandler =
         return NextResponse.json<ResponseTemplate<null>>(
           { data: null, message: "잘못된 요청입니다." },
           {
-            status: 401,
+            status: 400,
           }
         );
       } else if (e instanceof Error) {

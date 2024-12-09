@@ -9,22 +9,17 @@ export const POST = ApiRoutesErrorHandler(async (req: NextRequest) => {
 
   const validateData = databaseSchema.parse(body);
 
-  const { databaseId, tags, tagProperty } = validateData;
+  const { databaseId, tags, tagProperty, hiddenChkBoxPropertyName } =
+    validateData;
 
   const { results } = await notion.databases.query({
     database_id: databaseId,
     filter: {
       and: [
         {
-          property: "숨김",
+          property: hiddenChkBoxPropertyName,
           checkbox: {
             equals: false,
-          },
-        },
-        {
-          property: "상태",
-          status: {
-            equals: "완료",
           },
         },
         {

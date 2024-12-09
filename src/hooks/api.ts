@@ -51,7 +51,8 @@ export const useFetchGithubRepoReleases = (owner: string, repo: string) => {
 export const useFetchNotionDatabasePages = (
   tags: string[],
   databaseId: string,
-  tagProperty: string
+  tagProperty: string,
+  hiddenChkBoxPropertyName: string
 ) => {
   const { data } = useQuery({
     queryKey: ["pages", ...tags],
@@ -68,6 +69,7 @@ export const useFetchNotionDatabasePages = (
         databaseId,
         tags,
         tagProperty,
+        hiddenChkBoxPropertyName: hiddenChkBoxPropertyName,
       });
 
       return pages;

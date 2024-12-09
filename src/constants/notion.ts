@@ -4,5 +4,6 @@ export const DEV_LOG_DATABASE = {
     TITLE: "이름",
     CREATE_TIME: "생성 일시",
     MULTI_SELECT: "태그",
+    CHECKBOX: "숨김",
   },
 };

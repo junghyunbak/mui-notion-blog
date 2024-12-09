@@ -21,7 +21,8 @@ export function DevLogList() {
   const pages = useFetchNotionDatabasePages(
     tags,
     NOTION.DEV_LOG_DATABASE.ID,
-    NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT
+    NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT,
+    NOTION.DEV_LOG_DATABASE.PROPERTY.CHECKBOX
   );
 
   if (!pages) {
