@@ -3,10 +3,11 @@ import { type Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { ReactQueryProvider } from "./_components/ReactQueryProvider";
 import { Header } from "./_components/Header";
 import theme from "@/theme";
+import { GlobalLayout } from "./_components/GlobalLayout";
 
 export function generateMetadata(): Metadata {
   return {
@@ -24,12 +25,22 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <ReactQueryProvider>
-              <React.Suspense>
+              <GlobalLayout>
                 <Header />
                 <Container maxWidth="lg">
-                  <Stack sx={{ my: 4 }}>{props.children}</Stack>
+                  <React.Suspense>
+                    <Stack sx={{ my: 4 }}>{props.children}</Stack>
+                  </React.Suspense>
                 </Container>
-              </React.Suspense>
+              </GlobalLayout>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "300px",
+                  background: "white",
+                  borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+                }}
+              />
             </ReactQueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
