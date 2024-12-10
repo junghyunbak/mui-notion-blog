@@ -55,7 +55,7 @@ export function SnippetPreview() {
           .map((_, i) => {
             return (
               <Grid item key={i} xs={12} sm={10.5} md={5.25}>
-                <FullSizeSkeleton />
+                <FullSizeSkeleton sx={{ minHeight: "100px" }} />
               </Grid>
             );
           })}
@@ -63,8 +63,6 @@ export function SnippetPreview() {
         <Grid item xs={12} sm={1.5} md={1.5}>
           <FullSizeSkeleton
             sx={{
-              width: "100%",
-              height: "100%",
               minHeight: "100px",
             }}
           />
@@ -74,7 +72,7 @@ export function SnippetPreview() {
   }
 
   return (
-    <ResponsiveGrid container spacing={2}>
+    <ResponsiveGrid container spacing={2} xs={12} width="100%">
       {pages.slice(0, 2).map(({ id, properties, cover }) => {
         const title = getTitleFromNotionPageObject(
           properties[NOTION.SNIPPET_DATABASE.PROPERTY.TITLE]

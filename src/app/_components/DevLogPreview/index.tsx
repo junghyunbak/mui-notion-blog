@@ -63,14 +63,14 @@ export function DevLogPreivew() {
           .fill(null)
           .map((_, i) => {
             return (
-              <Grid item xs={10.5} sm={5.25} md={3.5} key={i}>
+              <Grid item xs={12} sm={5.25} md={3.5} key={i}>
                 <FullSizeSkeleton sx={{ height: "280px" }} />
               </Grid>
             );
           })}
 
         <Grid item xs={12} sm={1.5} md={1.5}>
-          <FullSizeSkeleton />
+          <FullSizeSkeleton sx={{ height: "280px" }} />
         </Grid>
       </ResponsiveGrid>
     );
