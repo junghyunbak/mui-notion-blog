@@ -42,6 +42,12 @@ export const getIconUrlFromNotionPageObject = (icon: Icon) => {
     return "";
   }
 
+  // @ts-expect-error
+  if (icon.type === "custom_emoji") {
+    // @ts-expect-error
+    return icon.custom_emoji.url;
+  }
+
   if (icon.type === "emoji") {
     return icon.emoji;
   }
