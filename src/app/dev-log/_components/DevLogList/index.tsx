@@ -28,6 +28,7 @@ export function DevLogList() {
     databaseId: NOTION.DEV_LOG_DATABASE.ID,
     tagPropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.MULTI_SELECT,
     hiddenChkBoxPropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.CHECKBOX,
+    datePropertyName: NOTION.DEV_LOG_DATABASE.PROPERTY.DATE,
   });
 
   if (!pages) {
