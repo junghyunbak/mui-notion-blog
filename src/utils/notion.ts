@@ -60,11 +60,11 @@ export const getIconUrlFromNotionPageObject = (icon: Icon) => {
 };
 
 export const getCreateTimeFromNotionPageObject = (property: Property) => {
-  if (!isNotionPropertyCorrectType(property, "created_time")) {
+  if (!isNotionPropertyCorrectType(property, "date") || !property.date) {
     return new Date(0);
   }
 
-  return new Date(property.created_time);
+  return new Date(property.date.start);
 };
 
 export const getTagsFromNotionPageObject = (property: Property) => {
