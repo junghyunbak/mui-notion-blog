@@ -1,4 +1,4 @@
-import { DetailContents } from "./_components/DetailContents";
+import { NotionPageContent } from "./_components/NotionPageContent";
 import { type Metadata } from "next";
 import {
   getTitleFromNotionPageObject,
@@ -10,13 +10,13 @@ import { NotionAPI } from "notion-client";
 
 const notionApi = new NotionAPI();
 
-interface DevLogDetail {
+interface NotionPageProps {
   params: { id: string };
 }
 
 export async function generateMetadata({
   params: { id },
-}: DevLogDetail): Promise<Metadata> {
+}: NotionPageProps): Promise<Metadata> {
   const page = await notion.pages.retrieve({
     page_id: id,
   });
@@ -41,8 +41,8 @@ export async function generateMetadata({
 
 export const revalidate = 60;
 
-export default async function DevLogDetail({ params: { id } }: DevLogDetail) {
+export default async function NotionPage({ params: { id } }: NotionPageProps) {
   const recordMap = await notionApi.getPage(id);
 
-  return <DetailContents recordMap={recordMap} />;
+  return <NotionPageContent recordMap={recordMap} />;
 }

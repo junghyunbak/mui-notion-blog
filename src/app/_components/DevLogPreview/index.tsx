@@ -92,7 +92,7 @@ export function DevLogPreivew() {
         );
 
         const handleCardClick = () => {
-          router.push(`/dev-log/${id}`);
+          router.push(`/notion/${id}`);
         };
 
         return (

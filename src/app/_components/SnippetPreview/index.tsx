@@ -84,8 +84,7 @@ export function SnippetPreview() {
         );
 
         const handleCardClick = () => {
-          // [ ]: snippet 전용 페이지 혹은 모달을 만들기 전 까지 /dev-log/[id] 페이지를 사용
-          router.push(`/dev-log/${id}`);
+          router.push(`/notion/${id}`);
         };
 
         return (

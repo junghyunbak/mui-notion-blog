@@ -10,11 +10,11 @@ import { Collection } from "react-notion-x/build/third-party/collection";
 import "react-notion-x/src/styles.css";
 import "prismjs/themes/prism.css";
 
-interface DetailContentsProps {
+interface NotionPageContentProps {
   recordMap: Awaited<ReturnType<InstanceType<typeof NotionAPI>["getPage"]>>;
 }
 
-export function DetailContents({ recordMap }: DetailContentsProps) {
+export function NotionPageContent({ recordMap }: NotionPageContentProps) {
   return (
     <Box
       sx={{
