@@ -32,7 +32,11 @@ export function GithubReleasesLineChart({
     (totalDownload, release) =>
       totalDownload +
       release.assets.reduce(
-        (assetsDownload, asset) => assetsDownload + asset.download_count,
+        (assetsDownload, asset) =>
+          assetsDownload +
+          (asset.name.endsWith("exe") || asset.name.endsWith("dmg")
+            ? asset.download_count
+            : 0),
         0
       ),
     0
@@ -40,7 +44,16 @@ export function GithubReleasesLineChart({
 
   const xData = releases.map((_, i) => i);
   const yData = releases
-    .map((release) => release.assets.reduce((a, c) => a + c.download_count, 0))
+    .map((release) =>
+      release.assets.reduce(
+        (assetsDownload, asset) =>
+          assetsDownload +
+          (asset.name.endsWith("exe") || asset.name.endsWith("dmg")
+            ? asset.download_count
+            : 0),
+        0
+      )
+    )
     .reverse();
 
   return (
