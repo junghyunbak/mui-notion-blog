@@ -42,8 +42,10 @@ export function GithubReleasesLineChart({
     0
   );
 
-  const xData = releases.map((_, i) => i);
-  const yData = releases
+  const recentRelease = releases.slice(0, 8);
+
+  const xData = recentRelease.map((_, i) => i);
+  const yData = recentRelease
     .map((release) =>
       release.assets.reduce(
         (assetsDownload, asset) =>
@@ -92,7 +94,7 @@ export function GithubReleasesLineChart({
               baseline: "min",
             },
           ]}
-          margin={{ left: 0, right: 0, bottom: 0, top: 0 }}
+          margin={{ left: 0, right: 0, bottom: 0, top: 4 }}
           sx={{
             [`& .${lineElementClasses.root}`]: {
               stroke: "#2A6FC8",
