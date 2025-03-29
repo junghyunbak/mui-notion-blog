@@ -2,6 +2,8 @@ import { type MetadataRoute } from "next";
 import { isPageObjectResponse, notion } from "@/utils";
 import { NOTION } from "@/constants";
 
+export const revalidate = 0;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const devLogSitemaps: MetadataRoute.Sitemap = (
     await notion.databases.query({
