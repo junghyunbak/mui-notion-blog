@@ -1,11 +1,11 @@
 "use client";
 
-import { GoBackButton } from "@/components/widget/GoBackButton";
 import { Box, Paper, Stack } from "@mui/material";
 import { NotionAPI } from "notion-client";
 import { NotionRenderer } from "react-notion-x";
 import { Code } from "react-notion-x/build/third-party/code";
 import { Collection } from "react-notion-x/build/third-party/collection";
+import Giscus from "@giscus/react";
 
 import "react-notion-x/src/styles.css";
 import "prismjs/themes/prism.css";
@@ -30,7 +30,6 @@ export function NotionPageContent({ recordMap }: NotionPageContentProps) {
           maxWidth: "720px",
         }}
       >
-        <GoBackButton />
         <Paper
           sx={{
             maxWidth: "100%",
@@ -44,6 +43,24 @@ export function NotionPageContent({ recordMap }: NotionPageContentProps) {
             recordMap={recordMap}
             components={{ Code, Collection }}
           />
+
+          <Box sx={{ padding: "0 16px 16px 16px" }}>
+            <Giscus
+              id="comments"
+              repo="junghyunbak/junghyunbak.github.io"
+              repoId="R_kgDOHfRlRA"
+              category="Announcements"
+              categoryId="DIC_kwDOHfRlRM4Cokhh"
+              mapping="pathname"
+              strict="0"
+              reactionsEnabled="1"
+              emitMetadata="0"
+              inputPosition="bottom"
+              theme="preferred_color_scheme"
+              lang="ko"
+              loading="lazy"
+            />
+          </Box>
         </Paper>
       </Stack>
     </Box>
