@@ -1,3 +1,7 @@
 .notion-hr {
   border-color: rgba(55, 53, 47, 0.16);
 }
+
+.token.operator {
+  background: none;
+}
