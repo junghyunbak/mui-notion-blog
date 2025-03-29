@@ -9,6 +9,7 @@ import Giscus from "@giscus/react";
 
 import "react-notion-x/src/styles.css";
 import "prismjs/themes/prism.css";
+import "./index.css";
 
 interface NotionPageContentProps {
   recordMap: Awaited<ReturnType<InstanceType<typeof NotionAPI>["getPage"]>>;
